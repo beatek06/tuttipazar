@@ -113,7 +113,10 @@ def facebook_ozet():
 DURAK = set("""und mit für von der die das den dem des ein eine einer eines zum zur neu neue neuer neues
 gut sehr top set stk stück grösse gr cm mm für inkl original alt alte alter aus auf bei ohne nur wie
 the and for with pour avec les des une und/oder oder gratis versand consegna gratuita livraison
-gratuite kostenlos schweiz suisse svizzera abholung neuwertig zustand chf sfr""".split())
+gratuite kostenlos schweiz suisse svizzera abholung neuwertig zustand chf sfr
+verkaufen verkaufe verkauft gebraucht guter gutem gute sehr jahre jahr wenig benutzt unbenutzt
+weiss weiß schwarz grau blau grün braun beige rosa gelb silber gold farbe
+holz metall massiv leder glas gross grosse klein kleine""".split())
 
 
 def kelimeler(baslik):
@@ -226,12 +229,13 @@ def main():
                       & (kesif["satıcı sayısı"] >= 5)].head(100)
     tarayici = tarayici_ozet()
     from capraz import capraz_analiz
-    sinama, uyum, korelasyon = capraz_analiz()
+    sinama, uyum, korelasyon, platform_bilgi = capraz_analiz()
 
     with pd.ExcelWriter(CIKTI) as xl:
         for ad, df in [("Tutti kelime", tutti), ("Tutti kategori", kategori), ("EN ÇOK SATANLAR", kesif), ("Filtreli 30-150 CHF az rekabet", hedef),
                         ("Ricardo elle", ricardo), ("Facebook elle", facebook), ("Eklenti kayıtları", tarayici),
-                        ("Çapraz - platform uyumu", uyum), ("Çapraz - korelasyon", korelasyon),
+                        ("Popülerlik uyumu - özet", korelasyon), ("Popülerlik uyumu - ürünler", uyum),
+                        ("Platformlar", platform_bilgi),
                         ("Çapraz - yöntem sınaması", sinama)]:
             (df if not df.empty else pd.DataFrame({"bilgi": ["henüz veri yok"]})).to_excel(xl, sheet_name=ad, index=False)
         if not ilanlar.empty:
@@ -241,8 +245,8 @@ def main():
     pd.set_option("display.width", 200, "display.max_columns", 20)
     for ad, df in [("TUTTI KELİME", tutti), ("TUTTI KATEGORİ", kategori), ("EN ÇOK SATANLAR (ilk 30, filtresiz)", kesif.head(30)),
                     ("RICARDO (elle)", ricardo), ("FACEBOOK (elle)", facebook), ("EKLENTİ KAYITLARI", tarayici),
-                    ("ÇAPRAZ: YÖNTEM SINAMASI", sinama), ("ÇAPRAZ: KORELASYON", korelasyon),
-                    ("ÇAPRAZ: PLATFORM UYUMU (ilk 20)", uyum.head(20))]:
+                    ("PLATFORMLAR", platform_bilgi), ("POPÜLERLİK UYUMU (Tutti ↔ Ricardo/FB)", korelasyon),
+                    ("ÜRÜNLER: POPÜLERLİK UYUMU (ilk 20)", uyum.head(20)), ("YÖNTEM SINAMASI", sinama)]:
         print(f"== {ad} ==")
         print(df.to_string(index=False) if not df.empty else "henüz veri yok")
         print()

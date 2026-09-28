@@ -1,4 +1,10 @@
-"""Çapraz doğrulama: Tutti (doğrudan ölçüm) ile Facebook/Ricardo (kayıt karşılaştırma) uyumu.
+"""Çapraz analiz. ANA SORU: Tutti'de popüler çıkan ÜRÜNLER Ricardo'da ve Facebook'ta da popüler mi?
+
+Her platformda her ürün ifadesi (ilan başlıklarından) için:
+  ilan payı %   = platformdaki ilanların yüzde kaçı bu ürün (arz)
+  satış payı %  = platformda tespit edilen satışların yüzde kaçı bu ürün (POPÜLERLİK)
+  günlük hız %  = bu ürünün bir ilanının 24 saatte satılma olasılığı
+Platformlar arası uyum: ifadelerin sıralaması Spearman ρ ile karşılaştırılır.
 
 Ortak birim: GÜNLÜK KAYBOLMA ORANI (%). Bir ilanın 24 saat içinde yayından kalkma olasılığı.
   lambda = kaybolan ilan / toplam gözlem süresi (gün)  ->  oran = 1 - e^(-lambda)
@@ -8,11 +14,13 @@ Ortak birim: GÜNLÜK KAYBOLMA ORANI (%). Bir ilanın 24 saat içinde yayından 
   b) Pencere yöntemi (FB, Ricardo ve sınama için Tutti): "en yeni" sıralı iki kayıt karşılaştırılır.
      B kaydında A'daki bir ilandan daha eski ilanlar hâlâ görünüyor ama o ilan yoksa -> kaybolmuş.
 
-Katman 1 - Yöntem sınaması: (b) yöntemi Tutti'ye uygulanır, (a) ile karşılaştırılır.
-Katman 2 - Platform uyumu: aynı ürün ifadesi Tutti'de hızlı gidiyorsa FB/Ricardo'da da hızlı mı?
+Yardımcı kontrol - Yöntem sınaması: (b) yöntemi Tutti'ye uygulanır, (a) ile karşılaştırılır;
+FB/Ricardo satış tespitine ne kadar güvenilebileceğini gösterir.
 """
+import json
 import math
 import sqlite3
+from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlsplit
 
 import pandas as pd
@@ -182,65 +190,133 @@ def platform_pencere(t, platform):
     return pd.concat(parca) if parca else pd.DataFrame(columns=["id", "t_a", "t_b", "gun", "kayboldu", "sayfa"])
 
 
-# ---------------------------------------------------------------- Katman 2: uyum
+# ---------------------------------------------------------------- ANA SORU: ürün popülerliği uyumu
+# "Tutti'de popüler çıkan ürünler Ricardo'da ve Facebook Marketplace'te de popüler mi?"
+
+POPULER_DILIM = 0.75    # platformdaki ifadelerin en üst çeyreği "popüler"
+MIN_ILAN = 5            # bir ifadenin platformda değerlendirilmesi için gereken en az ilan
+MIN_SATIS_TOPLAM = 20   # platformda bu kadar satış tespit edilmeden popülerlik ilan payından ölçülür
+
+
+def platform_olculeri(ad, ilanlar, ifadeler, gozlem):
+    """ilanlar: platformdaki tüm ilan id'leri | ifadeler: id -> set(ifade) | gozlem: id, gun, kayboldu.
+    Her ifade için: ilan payı (arz), satış payı (popülerlik), günlük satış hızı."""
+    ilan_say = pd.Series([w for i in ilanlar for w in ifadeler.get(i, ())], dtype=object).value_counts()
+    satilan = list(gozlem.loc[gozlem["kayboldu"].astype(bool), "id"].unique()) if not gozlem.empty else []
+    satis_say = pd.Series([w for i in satilan for w in ifadeler.get(i, ())], dtype=object).value_counts()
+    hiz = (ifade_oranlari(gozlem, ifadeler).set_index("ifade")["oran"]
+           if not gozlem.empty else pd.Series(dtype=float))
+    o = pd.DataFrame({
+        f"{ad} ilan": ilan_say,
+        f"{ad} ilan payı %": (100 * ilan_say / max(len(ilanlar), 1)).round(2),
+        f"{ad} satış": satis_say,
+        f"{ad} satış payı %": (100 * satis_say / max(len(satilan), 1)).round(2),
+        f"{ad} günlük hız %": hiz,
+    })
+    o = o[o[f"{ad} ilan"].fillna(0) >= MIN_ILAN]
+    o[[f"{ad} satış", f"{ad} satış payı %"]] = o[[f"{ad} satış", f"{ad} satış payı %"]].fillna(0)
+    # Popülerlik ölçüsü: yeterli satış varsa satış payı, yoksa (geçici) ilan payı
+    olcu = f"{ad} satış payı %" if len(satilan) >= MIN_SATIS_TOPLAM else f"{ad} ilan payı %"
+    esik = o[olcu].quantile(POPULER_DILIM) if len(o) else 0
+    o[f"{ad} popüler"] = o[olcu] >= esik
+    o.index.name = "ifade"
+    return o, {"platform": ad, "ilan": len(ilanlar), "tespit edilen satış": len(satilan),
+               "popülerlik ölçüsü": olcu.replace(f"{ad} ", "")}
+
+
+ESLESME = Path(__file__).parent / "kategori_eslesme.json"
+
+
+def sayfa_kategorisi(platform, url):
+    """FB: ?category_id=...  |  Ricardo: /de/c/<kategori>/  (genel arama /de/s -> 's')"""
+    s = urlsplit(url)
+    if platform == "facebook":
+        return dict(parse_qsl(s.query)).get("category_id")
+    parca = [p for p in s.path.split("/") if p]
+    if "c" in parca and parca.index("c") + 1 < len(parca):
+        return parca[parca.index("c") + 1]
+    return parca[1] if len(parca) > 1 else None
+
+
+def tutti_kapsami(t):
+    """Gezilen FB/Ricardo kategorilerinin Tutti karşılıkları. Eşlenmemiş sayfalar ayrıca döner."""
+    eslesme = json.loads(ESLESME.read_text(encoding="utf-8")) if ESLESME.exists() else {}
+    kapsam, eslenmemis = set(), set()
+    for (platform, url) in t[["platform", "sayfa_url"]].drop_duplicates().itertuples(index=False):
+        kat = sayfa_kategorisi(platform, url)
+        karsilik = eslesme.get(platform, {}).get(kat)
+        if karsilik:
+            kapsam |= set(karsilik)
+        else:
+            eslenmemis.add(f"{platform}:{kat}")
+    return kapsam, eslenmemis
+
 
 def platform_uyumu(k, t):
-    gercek = tutti_gercek(k)
+    platformlar = []
+    kapsam, eslenmemis = tutti_kapsami(t) if not t.empty else ({"*"}, set())
+    if kapsam and "*" not in kapsam:
+        k = k[k["kategori"].isin(kapsam)]  # elma ile elmayı karşılaştır: aynı ürün grupları
     tutti_ifade = {i: kelimeler(b) for i, b in zip(k["id"], k["baslik"])}
-    tg = gercek.rename(columns={"kayboldu_mu": "kayboldu_b"})[["id", "gun", "kayboldu_b"]].rename(
-        columns={"kayboldu_b": "kayboldu"})
-    tablo = ifade_oranlari(tg, tutti_ifade).rename(
-        columns={"gozlem": "Tutti gözlem", "kaybolan": "Tutti kaybolan", "oran": "Tutti günlük %"})
-
-    korelasyon = []
+    tg = tutti_gercek(k)[["id", "gun", "kayboldu_mu"]].rename(columns={"kayboldu_mu": "kayboldu"})
+    platformlar.append(("Tutti", *platform_olculeri("Tutti", list(k["id"]), tutti_ifade, tg)))
     if not t.empty:
         ifadeler = kart_ifadeleri(t)
         for platform, ad in [("facebook", "Facebook"), ("ricardo", "Ricardo")]:
-            p = platform_pencere(t, platform)
-            o = ifade_oranlari(p, ifadeler).rename(
-                columns={"gozlem": f"{ad} gözlem", "kaybolan": f"{ad} kaybolan", "oran": f"{ad} günlük %"})
-            tablo = tablo.merge(o, on="ifade", how="outer")
-            ortak = tablo.dropna(subset=["Tutti günlük %", f"{ad} günlük %"])
-            # Spearman = sıralamaların Pearson korelasyonu (scipy gerektirmez)
-            rho = (ortak["Tutti günlük %"].rank().corr(ortak[f"{ad} günlük %"].rank())
-                   if len(ortak) >= 5 else None)
-            korelasyon.append({"karşılaştırma": f"Tutti ↔ {ad}", "ortak ifade": len(ortak),
-                               "sıralama uyumu (Spearman ρ)": round(rho, 2) if rho is not None else None,
-                               "yorum": yorum(rho, len(ortak))})
+            tp = t[t["platform"] == platform]
+            if tp.empty:
+                continue
+            ilanlar = list((platform + ":" + tp["id"]).unique())
+            platformlar.append((ad, *platform_olculeri(ad, ilanlar, ifadeler, platform_pencere(t, platform))))
 
-    # Her platformda: ifade o platformun medyanının üstünde mi (hızlı) altında mı (yavaş)?
-    oran_sut = [c for c in tablo.columns if c.endswith("günlük %")]
-    for c in oran_sut:
-        med = tablo[c].median()
-        tablo[c.replace("günlük %", "hız")] = tablo[c].map(
-            lambda v: None if pd.isna(v) else ("hızlı" if v > med else "yavaş"))
-    hiz_sut = [c for c in tablo.columns if c.endswith(" hız")]
+    tablo = pd.concat([o for _, o, _ in platformlar], axis=1)
+    bilgi = pd.DataFrame([b for _, _, b in platformlar])
+    bilgi["Tutti kapsamı"] = ", ".join(sorted(kapsam)) if kapsam else "*"
+    bilgi["eşlenmemiş sayfalar (kategori_eslesme.json'a ekle)"] = ", ".join(sorted(eslenmemis)) or "-"
 
     def uyum(r):
-        h = [r[c] for c in hiz_sut if isinstance(r[c], str)]
-        if len(h) < 2:
-            return "tek platform"
-        if all(x == "hızlı" for x in h):
-            return "✓ her yerde hızlı"
-        if all(x == "yavaş" for x in h):
-            return "✓ her yerde yavaş"
-        return "⚠ çelişki"
-    tablo["uyum"] = tablo.apply(uyum, axis=1) if not tablo.empty else []
-    sira = {"✓ her yerde hızlı": 0, "⚠ çelişki": 1, "tek platform": 2, "✓ her yerde yavaş": 3}
-    if not tablo.empty:
-        tablo = tablo.sort_values(["uyum", "Tutti günlük %"], key=lambda s: s.map(sira) if s.name == "uyum" else -s.fillna(-1))
-    return tablo, pd.DataFrame(korelasyon)
+        var = [ad for ad, _, _ in platformlar if pd.notna(r.get(f"{ad} ilan"))]
+        pop = [ad for ad in var if r.get(f"{ad} popüler") is True]
+        if len(var) < 2:
+            return "tek platformda var"
+        if len(pop) == len(var):
+            return "✓ her yerde popüler"
+        if pop:
+            return "◐ sadece " + " + ".join(pop) + "'te popüler"
+        return "– hiçbir yerde öne çıkmıyor"
+    tablo["uyum"] = tablo.apply(uyum, axis=1) if len(tablo) else []
+    sira = lambda u: 0 if u.startswith("✓") else 1 if u.startswith("◐") else 2 if u.startswith("–") else 3
+    tablo = tablo.assign(_s=tablo["uyum"].map(sira)).sort_values(
+        ["_s", "Tutti satış payı %", "Tutti ilan payı %"], ascending=[True, False, False]).drop(columns="_s")
+
+    korelasyon = []
+    for ad, _, b in platformlar[1:]:
+        for olcu in ["satış payı %", "ilan payı %"]:
+            ortak = tablo.dropna(subset=[f"Tutti ilan", f"{ad} ilan"])
+            n = len(ortak)
+            yeterli = n >= 5 and (olcu == "ilan payı %" or
+                                  (b["tespit edilen satış"] >= MIN_SATIS_TOPLAM and
+                                   bilgi.loc[0, "tespit edilen satış"] >= MIN_SATIS_TOPLAM))
+            rho = ortak[f"Tutti {olcu}"].rank().corr(ortak[f"{ad} {olcu}"].rank()) if yeterli else None
+            korelasyon.append({"karşılaştırma": f"Tutti ↔ {ad}", "ölçü": olcu.replace(" %", ""),
+                               "ortak ürün ifadesi": n,
+                               "sıralama uyumu (Spearman ρ)": round(rho, 2) if rho is not None and pd.notna(rho) else None,
+                               "yorum": yorum(rho, n, olcu, b["tespit edilen satış"])})
+    return tablo.reset_index(), pd.DataFrame(korelasyon), bilgi
 
 
-def yorum(rho, n):
-    if rho is None:
-        return f"yetersiz veri ({n} ortak ifade, en az 5 gerekli)"
+def yorum(rho, n, olcu, satis):
+    if rho is None or pd.isna(rho):
+        if n < 5:
+            return f"yetersiz veri: {n} ortak ürün ifadesi (en az 5)"
+        return f"yetersiz satış verisi: {satis} satış tespit edildi (en az {MIN_SATIS_TOPLAM})"
+    ne = "satılan" if olcu.startswith("satış") else "ilana çıkan"
     if rho >= 0.5:
-        return "güçlü uyum: platformlar aynı ürünleri hızlı satıyor"
+        return f"güçlü uyum: iki platformda da en çok {ne} ürünler büyük ölçüde aynı"
     if rho >= 0.2:
         return "zayıf-orta uyum"
     if rho > -0.2:
-        return "uyum yok: platformlar farklı davranıyor ya da veri gürültülü"
+        return "uyum yok: platformlarda farklı ürünler öne çıkıyor (ya da veri henüz gürültülü)"
     return "ters ilişki: kontrol et"
 
 
@@ -256,16 +332,18 @@ def capraz_analiz():
     finally:
         con.close()
     sinama = yontem_sinamasi(k, gor) if not k.empty else pd.DataFrame()
-    uyum, korelasyon = platform_uyumu(k, t) if not k.empty else (pd.DataFrame(), pd.DataFrame())
-    return sinama, uyum, korelasyon
+    uyum, korelasyon, bilgi = (platform_uyumu(k, t) if not k.empty
+                               else (pd.DataFrame(), pd.DataFrame(), pd.DataFrame()))
+    return sinama, uyum, korelasyon, bilgi
 
 
 if __name__ == "__main__":
     import sys
     sys.stdout.reconfigure(encoding="utf-8")
     pd.set_option("display.width", 220, "display.max_columns", 20)
-    s, u, kor = capraz_analiz()
-    for ad, df in [("YÖNTEM SINAMASI", s), ("PLATFORM UYUMU (ilk 30)", u.head(30)), ("KORELASYON", kor)]:
+    s, u, kor, bilgi = capraz_analiz()
+    for ad, df in [("PLATFORMLAR", bilgi), ("ÜRÜN POPÜLERLİĞİ UYUMU", kor), ("ÜRÜNLER (ilk 30)", u.head(30)),
+                   ("YÖNTEM SINAMASI", s)]:
         print(f"== {ad} ==")
         print(df.to_string(index=False) if not df.empty else "henüz veri yok")
         print()

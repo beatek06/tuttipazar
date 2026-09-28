@@ -1,0 +1,19 @@
+{
+  "_aciklama": "Facebook/Ricardo'da gezilen kategori -> Tutti'deki karşılık kategoriler (id'ler tutti_kategoriler.json'da). Ürün popülerliği karşılaştırmasında Tutti tarafı sadece bu kategorilerle sınırlanır. '*' = Tutti'nin tamamı.",
+  "facebook": {
+    "753380185098614": [
+      "furniture",
+      "decorationAccessories",
+      "equipmentTools",
+      "lighting"
+    ]
+  },
+  "ricardo": {
+    "sonstigen-haushalts-bedarf-40519": [
+      "furniture",
+      "decorationAccessories",
+      "equipmentTools",
+      "lighting"
+    ]
+  }
+}
