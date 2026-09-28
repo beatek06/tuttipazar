@@ -1,0 +1,751 @@
+[
+ {
+  "id": "antiquesArts",
+  "ad": "Antiquitäten & Kunst",
+  "ust": "",
+  "token": "Ak8CsYW50aXF1ZXNBcnRzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "babyChild",
+  "ad": "Baby & Kind",
+  "ust": "",
+  "token": "Ak8CpYmFieUNoaWxklMDAwMA",
+  "yaprak": false
+ },
+ {
+  "id": "babyCare",
+  "ad": "Babypflege",
+  "ust": "Baby & Kind",
+  "token": "Ak8CoYmFieUNhcmWUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "strollersSeats",
+  "ad": "Kinderwagen & Sitze",
+  "ust": "Baby & Kind",
+  "token": "Ak8Cuc3Ryb2xsZXJzU2VhdHOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "childrensRoom",
+  "ad": "Kinderzimmer",
+  "ust": "Baby & Kind",
+  "token": "Ak8CtY2hpbGRyZW5zUm9vbZTAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "babyClothes",
+  "ad": "Kleider & Schuhe",
+  "ust": "Baby & Kind",
+  "token": "Ak8CrYmFieUNsb3RoZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "books",
+  "ad": "Bücher",
+  "ust": "",
+  "token": "Ak8ClYm9va3OUwMDAwA",
+  "yaprak": false
+ },
+ {
+  "id": "comics",
+  "ad": "Comics",
+  "ust": "Bücher",
+  "token": "Ak8CmY29taWNzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "novels",
+  "ad": "Romane",
+  "ust": "Bücher",
+  "token": "Ak8Cmbm92ZWxzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "nonFictionBooks",
+  "ad": "Sachbücher & Ratgeber",
+  "ust": "Bücher",
+  "token": "Ak8Cvbm9uRmljdGlvbkJvb2tzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "otherBooks",
+  "ad": "Sonstige Bücher",
+  "ust": "Bücher",
+  "token": "Ak8Cqb3RoZXJCb29rc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "officeBusiness",
+  "ad": "Büro & Gewerbe",
+  "ust": "",
+  "token": "Ak8Cub2ZmaWNlQnVzaW5lc3OUwMDAwA",
+  "yaprak": false
+ },
+ {
+  "id": "officeMaterialFurniture",
+  "ad": "Büromaterial & Büromöbel",
+  "ust": "Büro & Gewerbe",
+  "token": "Ak8C3b2ZmaWNlTWF0ZXJpYWxGdXJuaXR1cmWUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "commercialInstallationsFurniture",
+  "ad": "Geschäftseinrichtungen",
+  "ust": "Büro & Gewerbe",
+  "token": "Ak8DZIGNvbW1lcmNpYWxJbnN0YWxsYXRpb25zRnVybml0dXJllMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "computersAccessories",
+  "ad": "Computer & Zubehör",
+  "ust": "",
+  "token": "Ak8C0Y29tcHV0ZXJzQWNjZXNzb3JpZXOUwMDAwA",
+  "yaprak": false
+ },
+ {
+  "id": "computers",
+  "ad": "Computer",
+  "ust": "Computer & Zubehör",
+  "token": "Ak8CpY29tcHV0ZXJzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "computerComponentsAccessories",
+  "ad": "Komponenten & Zubehör",
+  "ust": "Computer & Zubehör",
+  "token": "Ak8C9Y29tcHV0ZXJDb21wb25lbnRzQWNjZXNzb3JpZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "software",
+  "ad": "Software",
+  "ust": "Computer & Zubehör",
+  "token": "Ak8Coc29mdHdhcmWUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "tablets",
+  "ad": "Tablets",
+  "ust": "Computer & Zubehör",
+  "token": "Ak8CndGFibGV0c5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "services",
+  "ad": "Dienstleistungen",
+  "ust": "",
+  "token": "Ak8Coc2VydmljZXOUwMDAwA",
+  "yaprak": false
+ },
+ {
+  "id": "businessOfficeServices",
+  "ad": "Büroservice",
+  "ust": "Dienstleistungen",
+  "token": "Ak8C2YnVzaW5lc3NPZmZpY2VTZXJ2aWNlc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "cateringHospitalityServices",
+  "ad": "Catering, Gastronomie & Partyplanung",
+  "ust": "Dienstleistungen",
+  "token": "Ak8C7Y2F0ZXJpbmdIb3NwaXRhbGl0eVNlcnZpY2VzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "computerServices",
+  "ad": "Computer & Handys",
+  "ust": "Dienstleistungen",
+  "token": "Ak8CwY29tcHV0ZXJTZXJ2aWNlc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "electronicMechanicalServices",
+  "ad": "Elektronik & Mechanik",
+  "ust": "Dienstleistungen",
+  "token": "Ak8C8ZWxlY3Ryb25pY01lY2hhbmljYWxTZXJ2aWNlc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "financeLegalServices",
+  "ad": "Finanzen & Recht",
+  "ust": "Dienstleistungen",
+  "token": "Ak8C0ZmluYW5jZUxlZ2FsU2VydmljZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "healthBeautyServices",
+  "ad": "Gesundheit & Schönheit",
+  "ust": "Dienstleistungen",
+  "token": "Ak8C0aGVhbHRoQmVhdXR5U2VydmljZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "craftsServices",
+  "ad": "Handwerk",
+  "ust": "Dienstleistungen",
+  "token": "Ak8CuY3JhZnRzU2VydmljZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "householdCleaningServices",
+  "ad": "Haushalt & Reinigung",
+  "ust": "Dienstleistungen",
+  "token": "Ak8C5aG91c2Vob2xkQ2xlYW5pbmdTZXJ2aWNlc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "coursesTuitionServices",
+  "ad": "Kurse & Unterricht",
+  "ust": "Dienstleistungen",
+  "token": "Ak8C2Y291cnNlc1R1aXRpb25TZXJ2aWNlc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "petServices",
+  "ad": "Tiere",
+  "ust": "Dienstleistungen",
+  "token": "Ak8CrcGV0U2VydmljZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "transportationMovingServices",
+  "ad": "Umzug & Transport",
+  "ust": "Dienstleistungen",
+  "token": "Ak8C8dHJhbnNwb3J0YXRpb25Nb3ZpbmdTZXJ2aWNlc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "propertyMaintenanceServices",
+  "ad": "Unterhalt & Sicherheit",
+  "ust": "Dienstleistungen",
+  "token": "Ak8C7cHJvcGVydHlNYWludGVuYW5jZVNlcnZpY2VzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "otherServices",
+  "ad": "Sonstige Dienstleistungen",
+  "ust": "Dienstleistungen",
+  "token": "Ak8Ctb3RoZXJTZXJ2aWNlc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "vehicles",
+  "ad": "Fahrzeuge",
+  "ust": "",
+  "token": "Ak8CodmVoaWNsZXOUwMDAwA",
+  "yaprak": false
+ },
+ {
+  "id": "cars",
+  "ad": "Autos",
+  "ust": "Fahrzeuge",
+  "token": "Ak8CkY2Fyc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "carAccessories",
+  "ad": "Autozubehör",
+  "ust": "Fahrzeuge",
+  "token": "Ak8CuY2FyQWNjZXNzb3JpZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "boats",
+  "ad": "Boote & Zubehör",
+  "ust": "Fahrzeuge",
+  "token": "Ak8ClYm9hdHOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "motorcycleAccessories",
+  "ad": "Motorradzubehör",
+  "ust": "Fahrzeuge",
+  "token": "Ak8C1bW90b3JjeWNsZUFjY2Vzc29yaWVzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "motorcycles",
+  "ad": "Motorräder",
+  "ust": "Fahrzeuge",
+  "token": "Ak8CrbW90b3JjeWNsZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "utilityVehicles",
+  "ad": "Nutzfahrzeuge",
+  "ust": "Fahrzeuge",
+  "token": "Ak8CvdXRpbGl0eVZlaGljbGVzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "caravans",
+  "ad": "Wohnmobile",
+  "ust": "Fahrzeuge",
+  "token": "Ak8CoY2FyYXZhbnOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "films",
+  "ad": "Filme",
+  "ust": "",
+  "token": "Ak8ClZmlsbXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "photoVideo",
+  "ad": "Foto & Video",
+  "ust": "",
+  "token": "Ak8CqcGhvdG9WaWRlb5TAwMDA",
+  "yaprak": false
+ },
+ {
+  "id": "photoCameras",
+  "ad": "Fotokameras",
+  "ust": "Foto & Video",
+  "token": "Ak8CscGhvdG9DYW1lcmFzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "videoCameras",
+  "ad": "Videokameras",
+  "ust": "Foto & Video",
+  "token": "Ak8CsdmlkZW9DYW1lcmFzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "photoVideoAccessories",
+  "ad": "Zubehör",
+  "ust": "Foto & Video",
+  "token": "Ak8C1cGhvdG9WaWRlb0FjY2Vzc29yaWVzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "gardenCraft",
+  "ad": "Garten & Handwerk",
+  "ust": "",
+  "token": "Ak8CrZ2FyZGVuQ3JhZnSUwMDAwA",
+  "yaprak": false
+ },
+ {
+  "id": "buildingMaterials",
+  "ad": "Baumaterial",
+  "ust": "Garten & Handwerk",
+  "token": "Ak8CxYnVpbGRpbmdNYXRlcmlhbHOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "gardenOutfitting",
+  "ad": "Gartenausstattung",
+  "ust": "Garten & Handwerk",
+  "token": "Ak8CwZ2FyZGVuT3V0Zml0dGluZ5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "gardenEquipment",
+  "ad": "Werkzeuge & Maschinen",
+  "ust": "Garten & Handwerk",
+  "token": "Ak8CvZ2FyZGVuRXF1aXBtZW50lMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "household",
+  "ad": "Haushalt",
+  "ust": "",
+  "token": "Ak8CpaG91c2Vob2xklMDAwMA",
+  "yaprak": false
+ },
+ {
+  "id": "lighting",
+  "ad": "Beleuchtung",
+  "ust": "Haushalt",
+  "token": "Ak8CobGlnaHRpbmeUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "decorationAccessories",
+  "ad": "Deko & Accessoires",
+  "ust": "Haushalt",
+  "token": "Ak8C1ZGVjb3JhdGlvbkFjY2Vzc29yaWVzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "equipmentTools",
+  "ad": "Geräte & Utensilien",
+  "ust": "Haushalt",
+  "token": "Ak8CuZXF1aXBtZW50VG9vbHOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "food",
+  "ad": "Lebensmittel",
+  "ust": "Haushalt",
+  "token": "Ak8CkZm9vZJTAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "furniture",
+  "ad": "Möbel",
+  "ust": "Haushalt",
+  "token": "Ak8CpZnVybml0dXJllMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "realEstate",
+  "ad": "Immobilien",
+  "ust": "",
+  "token": "Ak8CqcmVhbEVzdGF0ZZTAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "clothesAccessories",
+  "ad": "Kleidung & Accessoires",
+  "ust": "",
+  "token": "Ak8CyY2xvdGhlc0FjY2Vzc29yaWVzlMDAwMA",
+  "yaprak": false
+ },
+ {
+  "id": "accessories",
+  "ad": "Accessoires & Beauty",
+  "ust": "Kleidung & Accessoires",
+  "token": "Ak8CrYWNjZXNzb3JpZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "womensClothes",
+  "ad": "Kleidung für Damen",
+  "ust": "Kleidung & Accessoires",
+  "token": "Ak8Ctd29tZW5zQ2xvdGhlc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "mensClothes",
+  "ad": "Kleidung für Herren",
+  "ust": "Kleidung & Accessoires",
+  "token": "Ak8CrbWVuc0Nsb3RoZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "womensShoes",
+  "ad": "Schuhe für Damen",
+  "ust": "Kleidung & Accessoires",
+  "token": "Ak8Crd29tZW5zU2hvZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "mensShoes",
+  "ad": "Schuhe für Herren",
+  "ust": "Kleidung & Accessoires",
+  "token": "Ak8CpbWVuc1Nob2VzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "bagsWallets",
+  "ad": "Taschen & Portemonnaies",
+  "ust": "Kleidung & Accessoires",
+  "token": "Ak8CrYmFnc1dhbGxldHOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "watchesJewelry",
+  "ad": "Uhren & Schmuck",
+  "ust": "Kleidung & Accessoires",
+  "token": "Ak8Cud2F0Y2hlc0pld2VscnmUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "music",
+  "ad": "Musik",
+  "ust": "",
+  "token": "Ak8ClbXVzaWOUwMDAwA",
+  "yaprak": false
+ },
+ {
+  "id": "cds",
+  "ad": "CD, Vinyl & Kassetten",
+  "ust": "Musik",
+  "token": "Ak8CjY2RzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "musicalInstruments",
+  "ad": "Instrumente",
+  "ust": "Musik",
+  "token": "Ak8CybXVzaWNhbEluc3RydW1lbnRzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "collectibles",
+  "ad": "Sammeln",
+  "ust": "",
+  "token": "Ak8CsY29sbGVjdGlibGVzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "toysHandicrafts",
+  "ad": "Spielzeuge & Basteln",
+  "ust": "",
+  "token": "Ak8CvdG95c0hhbmRpY3JhZnRzlMDAwMA",
+  "yaprak": false
+ },
+ {
+  "id": "handicrafts",
+  "ad": "Basteln",
+  "ust": "Spielzeuge & Basteln",
+  "token": "Ak8CraGFuZGljcmFmdHOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "modeling",
+  "ad": "Modellbau",
+  "ust": "Spielzeuge & Basteln",
+  "token": "Ak8CobW9kZWxpbmeUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "consolesGames",
+  "ad": "Spielkonsolen & Games",
+  "ust": "Spielzeuge & Basteln",
+  "token": "Ak8CtY29uc29sZXNHYW1lc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "toys",
+  "ad": "Spielzeuge",
+  "ust": "Spielzeuge & Basteln",
+  "token": "Ak8CkdG95c5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "sportsOutdoors",
+  "ad": "Sport & Outdoor",
+  "ust": "",
+  "token": "Ak8Cuc3BvcnRzT3V0ZG9vcnOUwMDAwA",
+  "yaprak": false
+ },
+ {
+  "id": "camping",
+  "ad": "Camping",
+  "ust": "Sport & Outdoor",
+  "token": "Ak8CnY2FtcGluZ5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "fitness",
+  "ad": "Fitness",
+  "ust": "Sport & Outdoor",
+  "token": "Ak8CnZml0bmVzc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "bicycles",
+  "ad": "Velos",
+  "ust": "Sport & Outdoor",
+  "token": "Ak8CoYmljeWNsZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "winterSports",
+  "ad": "Wintersport",
+  "ust": "Sport & Outdoor",
+  "token": "Ak8Csd2ludGVyU3BvcnRzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "otherSports",
+  "ad": "Sonstige Sportarten",
+  "ust": "Sport & Outdoor",
+  "token": "Ak8Crb3RoZXJTcG9ydHOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "jobs",
+  "ad": "Stellenangebote",
+  "ust": "",
+  "token": "Ak8Ckam9ic5TAwMDA",
+  "yaprak": false
+ },
+ {
+  "id": "gastronomy",
+  "ad": "Gastgewerbe",
+  "ust": "Stellenangebote",
+  "token": "Ak8CqZ2FzdHJvbm9teZTAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "healthcare",
+  "ad": "Gesundheitswesen",
+  "ust": "Stellenangebote",
+  "token": "Ak8CqaGVhbHRoY2FyZZTAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "craftConstruction",
+  "ad": "Handwerk & Bau",
+  "ust": "Stellenangebote",
+  "token": "Ak8CxY3JhZnRDb25zdHJ1Y3Rpb26UwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "childcareCleaning",
+  "ad": "Kinderbetreuung & Reinigung",
+  "ust": "Stellenangebote",
+  "token": "Ak8CxY2hpbGRjYXJlQ2xlYW5pbmeUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "otherJobs",
+  "ad": "Sonstige Stellen",
+  "ust": "Stellenangebote",
+  "token": "Ak8Cpb3RoZXJKb2JzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "tvAudio",
+  "ad": "TV & Audio",
+  "ust": "",
+  "token": "Ak8CndHZBdWRpb5TAwMDA",
+  "yaprak": false
+ },
+ {
+  "id": "audioHifi",
+  "ad": "Audio & Hi-Fi",
+  "ust": "TV & Audio",
+  "token": "Ak8CpYXVkaW9IaWZplMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "dvdPlayers",
+  "ad": "DVD-Player",
+  "ust": "TV & Audio",
+  "token": "Ak8CqZHZkUGxheWVyc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "tv",
+  "ad": "Fernseher",
+  "ust": "TV & Audio",
+  "token": "Ak8CidHaUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "phonesNavigation",
+  "ad": "Telefon & Navigation",
+  "ust": "",
+  "token": "Ak8CwcGhvbmVzTmF2aWdhdGlvbpTAwMDA",
+  "yaprak": false
+ },
+ {
+  "id": "landlinePhones",
+  "ad": "Festnetztelefone",
+  "ust": "Telefon & Navigation",
+  "token": "Ak8CubGFuZGxpbmVQaG9uZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "cellPhones",
+  "ad": "Handys",
+  "ust": "Telefon & Navigation",
+  "token": "Ak8CqY2VsbFBob25lc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "navigationSystems",
+  "ad": "Navigationssysteme",
+  "ust": "Telefon & Navigation",
+  "token": "Ak8CxbmF2aWdhdGlvblN5c3RlbXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "phoneNavigationAccessories",
+  "ad": "Zubehör",
+  "ust": "Telefon & Navigation",
+  "token": "Ak8C6cGhvbmVOYXZpZ2F0aW9uQWNjZXNzb3JpZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "ticketsVouchers",
+  "ad": "Tickets & Gutscheine",
+  "ust": "",
+  "token": "Ak8CvdGlja2V0c1ZvdWNoZXJzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "animals",
+  "ad": "Tiere",
+  "ust": "",
+  "token": "Ak8CnYW5pbWFsc5TAwMDA",
+  "yaprak": false
+ },
+ {
+  "id": "fish",
+  "ad": "Fische",
+  "ust": "Tiere",
+  "token": "Ak8CkZmlzaJTAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "rabbitsRodents",
+  "ad": "Hasen & Nagetiere",
+  "ust": "Tiere",
+  "token": "Ak8CucmFiYml0c1JvZGVudHOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "dogs",
+  "ad": "Hunde",
+  "ust": "Tiere",
+  "token": "Ak8CkZG9nc5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "dogAccessories",
+  "ad": "Hunde Zubehör",
+  "ust": "Tiere",
+  "token": "Ak8CuZG9nQWNjZXNzb3JpZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "cats",
+  "ad": "Katzen",
+  "ust": "Tiere",
+  "token": "Ak8CkY2F0c5TAwMDA",
+  "yaprak": true
+ },
+ {
+  "id": "horses",
+  "ad": "Pferde",
+  "ust": "Tiere",
+  "token": "Ak8CmaG9yc2VzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "reptiles",
+  "ad": "Reptilien",
+  "ust": "Tiere",
+  "token": "Ak8CocmVwdGlsZXOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "birds",
+  "ad": "Vögel",
+  "ust": "Tiere",
+  "token": "Ak8ClYmlyZHOUwMDAwA",
+  "yaprak": true
+ },
+ {
+  "id": "otherAnimals",
+  "ad": "Sonstige Tiere",
+  "ust": "Tiere",
+  "token": "Ak8Csb3RoZXJBbmltYWxzlMDAwMA",
+  "yaprak": true
+ },
+ {
+  "id": "other",
+  "ad": "Sonstiges",
+  "ust": "",
+  "token": "Ak8Clb3RoZXKUwMDAwA",
+  "yaprak": true
+ }
+]

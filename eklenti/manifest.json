@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Pazar Kaydedici",
+  "version": "1.0",
+  "description": "Ricardo, Tutti ve Facebook Marketplace'te gezinirken ekrandaki ilanları kaydeder.",
+  "permissions": ["downloads", "activeTab"],
+  "action": { "default_popup": "popup.html", "default_title": "Pazar Kaydedici" },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.ricardo.ch/*",
+        "https://www.tutti.ch/*",
+        "https://www.facebook.com/*"
+      ],
+      "js": ["topla.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

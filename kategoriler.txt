@@ -1,0 +1,60 @@
+# Tutti'de tamamı izlenecek kategoriler: TÜM eşya kategorileri (ön seçim yok).
+# Dışarıda sadece eşya olmayanlar: hizmetler, iş ilanları, emlak, araçlar, canlı hayvanlar.
+
+antiquesArts                      # Antiquitäten & Kunst
+babyCare                          # Baby & Kind > Babypflege
+strollersSeats                    # Baby & Kind > Kinderwagen & Sitze
+childrensRoom                     # Baby & Kind > Kinderzimmer
+babyClothes                       # Baby & Kind > Kleider & Schuhe
+comics                            # Bücher > Comics
+novels                            # Bücher > Romane
+nonFictionBooks                   # Bücher > Sachbücher & Ratgeber
+otherBooks                        # Bücher > Sonstige Bücher
+officeMaterialFurniture           # Büro & Gewerbe > Büromaterial & Büromöbel
+commercialInstallationsFurniture  # Büro & Gewerbe > Geschäftseinrichtungen
+computers                         # Computer & Zubehör > Computer
+computerComponentsAccessories     # Computer & Zubehör > Komponenten & Zubehör
+software                          # Computer & Zubehör > Software
+tablets                           # Computer & Zubehör > Tablets
+carAccessories                    # Fahrzeuge > Autozubehör
+motorcycleAccessories             # Fahrzeuge > Motorradzubehör
+films                             # Filme
+photoCameras                      # Foto & Video > Fotokameras
+videoCameras                      # Foto & Video > Videokameras
+photoVideoAccessories             # Foto & Video > Zubehör
+buildingMaterials                 # Garten & Handwerk > Baumaterial
+gardenOutfitting                  # Garten & Handwerk > Gartenausstattung
+gardenEquipment                   # Garten & Handwerk > Werkzeuge & Maschinen
+lighting                          # Haushalt > Beleuchtung
+decorationAccessories             # Haushalt > Deko & Accessoires
+equipmentTools                    # Haushalt > Geräte & Utensilien
+food                              # Haushalt > Lebensmittel
+furniture                         # Haushalt > Möbel
+accessories                       # Kleidung & Accessoires > Accessoires & Beauty
+womensClothes                     # Kleidung & Accessoires > Kleidung für Damen
+mensClothes                       # Kleidung & Accessoires > Kleidung für Herren
+womensShoes                       # Kleidung & Accessoires > Schuhe für Damen
+mensShoes                         # Kleidung & Accessoires > Schuhe für Herren
+bagsWallets                       # Kleidung & Accessoires > Taschen & Portemonnaies
+watchesJewelry                    # Kleidung & Accessoires > Uhren & Schmuck
+cds                               # Musik > CD, Vinyl & Kassetten
+musicalInstruments                # Musik > Instrumente
+collectibles                      # Sammeln
+handicrafts                       # Spielzeuge & Basteln > Basteln
+modeling                          # Spielzeuge & Basteln > Modellbau
+consolesGames                     # Spielzeuge & Basteln > Spielkonsolen & Games
+toys                              # Spielzeuge & Basteln > Spielzeuge
+camping                           # Sport & Outdoor > Camping
+fitness                           # Sport & Outdoor > Fitness
+bicycles                          # Sport & Outdoor > Velos
+winterSports                      # Sport & Outdoor > Wintersport
+otherSports                       # Sport & Outdoor > Sonstige Sportarten
+audioHifi                         # TV & Audio > Audio & Hi-Fi
+dvdPlayers                        # TV & Audio > DVD-Player
+tv                                # TV & Audio > Fernseher
+landlinePhones                    # Telefon & Navigation > Festnetztelefone
+cellPhones                        # Telefon & Navigation > Handys
+navigationSystems                 # Telefon & Navigation > Navigationssysteme
+phoneNavigationAccessories        # Telefon & Navigation > Zubehör
+dogAccessories                    # Tiere > Hunde Zubehör
+other                             # Sonstiges

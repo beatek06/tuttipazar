@@ -1,0 +1,21 @@
+# Takip edilecek ürünler (Tutti'de aranacak kelimeler, Almanca)
+# Format:  arama kelimesi | başlıkta geçmesi gereken kelimeler (virgülle, opsiyonel)
+# Filtre yazarsan sadece başlığında bu kelimelerden biri geçen ilanlar sayılır.
+# Satır başına # koyarsan o satır atlanır.
+
+Hamamtuch | hamam
+Peshtemal | peshtemal, pestemal
+Kelim Teppich | kelim, kilim
+Mosaiklampe | mosaik
+Türkische Lampe | lampe, leuchte
+Teegläser | teeglas, teegläser, çay
+Mokka Set | mokka
+Kupfer Kanne | kupfer
+Satin Bettwäsche | bettwäsche
+Bademantel | bademantel
+Handtuch Set | handtuch
+Kissenbezug | kissen
+Ledertasche | tasche
+Lederjacke | jacke
+Plaid Decke | plaid, decke
+Hundebett | hundebett

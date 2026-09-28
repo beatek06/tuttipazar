@@ -1,0 +1,13 @@
+# Veritabanları: Tutti verisi Release'te tutulur, FB/Ricardo verisi sadece yerelde
+veri.db
+veri.db.gz
+veri.db.indiriliyor
+tarayici.db
+ham/
+manuel/
+
+# Çıktılar
+rapor.xlsx
+takip.log
+tarama.log
+__pycache__/

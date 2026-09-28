@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<style>
+  body { font: 14px system-ui, sans-serif; width: 260px; margin: 12px; color: #1a1a1a; background: #fff; }
+  h1 { font-size: 15px; margin: 0 0 8px; }
+  #sayi { font-size: 28px; font-weight: 700; }
+  button { width: 100%; padding: 9px; margin-top: 8px; font-size: 14px; border-radius: 6px;
+           border: 1px solid #0b6b3a; background: #0b6b3a; color: #fff; cursor: pointer; }
+  button.ikincil { background: #fff; color: #0b6b3a; }
+  #durum { margin-top: 8px; font-size: 12px; color: #555; min-height: 16px; }
+</style>
+</head>
+<body>
+  <h1>Pazar Kaydedici</h1>
+  <div><span id="sayi">–</span> ilan toplandı</div>
+  <div style="font-size:12px;color:#555">Sayfayı aşağı kaydırdıkça sayı artar.</div>
+  <button id="kaydet">Kaydet</button>
+  <button id="sifirla" class="ikincil">Sıfırla (yeni arama için)</button>
+  <div id="durum"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

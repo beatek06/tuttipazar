@@ -1,0 +1,66 @@
+name: Tutti takip
+
+on:
+  schedule:
+    - cron: "17 */4 * * *"      # her 4 saatte bir (UTC). Zürih: 02:17, 06:17, 10:17, 14:17, 18:17, 22:17 (yaz saati)
+  workflow_dispatch:            # Actions sekmesinden elle çalıştırma
+  push:
+    branches: [main]
+    paths: [".github/workflows/tutti.yml", "tutti_takip.py", "kategoriler.txt", "urunler.txt"]
+
+concurrency:
+  group: tutti-takip            # iki tarama aynı anda veritabanına yazmasın
+  cancel-in-progress: false
+
+permissions:
+  contents: write               # veritabanını Release'e yüklemek için
+
+jobs:
+  tara:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONIOENCODING: utf-8
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Önceki veritabanını indir
+        run: |
+          if gh release view veri >/dev/null 2>&1; then
+            gh release download veri -p veri.db.gz   # Release varsa indirme başarısız olursa iş durur (veri ezilmesin)
+            gunzip -f veri.db.gz
+          else
+            echo "İlk çalışma: başlangıç veritabanı kullanılıyor"
+            gunzip -c veri_baslangic.db.gz > veri.db
+          fi
+
+      - name: Tutti tara
+        run: python tutti_takip.py 2>&1 | tee tarama.log
+
+      - name: Veritabanını Release'e yükle
+        if: ${{ !cancelled() && hashFiles('veri.db') != '' }}
+        run: |
+          gzip -kf veri.db
+          gh release view veri >/dev/null 2>&1 || \
+            gh release create veri --title "Tutti veritabanı" \
+              --notes "Her taramada otomatik güncellenir. İndirmek için: python veri_indir.py"
+          gh release upload veri veri.db.gz --clobber
+
+      - name: Özet
+        if: ${{ !cancelled() }}
+        run: |
+          {
+            echo '## Tutti taraması'
+            echo '```'
+            tail -n 70 tarama.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
