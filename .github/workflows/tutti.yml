@@ -54,6 +54,15 @@ jobs:
             gh release create veri --title "Tutti veritabanı" \
               --notes "Her taramada otomatik güncellenir. İndirmek için: python veri_indir.py"
           gh release upload veri veri.db.gz --clobber
+          [ -f tarama.log ] && gh release upload veri tarama.log --clobber || true
+
+      - name: Tarama başarısızsa işi kırmızıya çevir
+        if: ${{ !cancelled() }}
+        run: |
+          # Kategorilerin yarısından fazlası HATA verdiyse (ör. Tutti erişimi engelledi) iş başarısız görünsün
+          hata=$(grep -c "HATA" tarama.log || true)
+          echo "HATA satırı: $hata"
+          [ "$hata" -lt 30 ]
 
       - name: Özet
         if: ${{ !cancelled() }}
