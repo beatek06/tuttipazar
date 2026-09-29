@@ -317,9 +317,11 @@ def kategori_tara(con, kat, simdi):
 
 
 def kategori_modu(con):
-    simdi = zurih_simdi().isoformat()
     print("-- Kategori modu --")
     for kat in kategorileri_oku():
+        # Saat her kategoride yeniden okunur: bilgisayar tarama ortasında uykuya geçerse
+        # uyanınca toplanan veri eski saatle kaydedilmesin
+        simdi = zurih_simdi().isoformat()
         try:
             toplam, yeni, kontrol, kaybolan = kategori_tara(con, kat, simdi)
             print(f"  {kat['ad']:28} toplam {toplam:6}  yeni kayıt {yeni:5}  kontrol {kontrol:4}  kaybolan {kaybolan:3}")
@@ -328,9 +330,19 @@ def kategori_modu(con):
         time.sleep(BEKLEME)
 
 
+EN_AZ_ARA = timedelta(minutes=60)   # otomatik tetiklemelerde (kilit açma, uyanma) iki tarama arası en az süre
+
+
 def main():
-    mod = sys.argv[1] if len(sys.argv) > 1 else "hepsi"
+    argumanlar = [a for a in sys.argv[1:] if not a.startswith("--")]
+    mod = argumanlar[0] if argumanlar else "hepsi"
     con = db_ac()
+    if "--otomatik" in sys.argv:
+        son = con.execute("SELECT MAX(zaman) FROM kat_tarama").fetchone()[0]
+        if son and zurih_simdi() - datetime.fromisoformat(son) < EN_AZ_ARA:
+            print(f"Atlandı ({zurih_simdi():%Y-%m-%d %H:%M}): son tarama {son[11:16]}, 60 dk dolmadı")
+            con.close()
+            return
     print(f"Tutti taraması başladı: {zurih_simdi():%Y-%m-%d %H:%M}")
     if mod in ("hepsi", "kelime"):
         kelime_modu(con)
