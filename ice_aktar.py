@@ -38,7 +38,10 @@ def fiyat_bul(metin):
 
 
 RICARDO_SAYI = re.compile(r"^[\d'’]+\.\d{2}$")
-RICARDO_ATLA = {"boost", "neuheit", "|", "sofort kaufen", "oder preis vorschlagen"}
+RICARDO_ATLA = {"boost", "neuheit", "|", "sofort kaufen", "oder preis vorschlagen", "beliebt"}
+# Facebook kartının başındaki durum etiketleri (başlık değil): alıcı bulundu / satıldı
+FB_DURUM = {"reserviert": "rezerve", "ausstehend": "rezerve", "pending": "rezerve",
+            "verkauft": "satildi", "sold": "satildi"}
 KONUM_RE = re.compile(r",\s*[A-Z]{2}$")
 
 
@@ -59,20 +62,24 @@ def ricardo_coz(metin):
             hemen = sayi(s)
         elif "gebot" in sonraki:
             teklif_fiyat = sayi(s)
+    # "Beliebt": Ricardo'nun çok ilgi gören ilanlara koyduğu rozet (talep sinyali)
+    rozet = "beliebt" if any(s.lower() == "beliebt" for s in satirlar) else None
     return dict(baslik=baslik, fiyat=hemen if hemen is not None else teklif_fiyat,
-                fiyat_hemen=hemen, fiyat_teklif=teklif_fiyat, konum=None)
+                fiyat_hemen=hemen, fiyat_teklif=teklif_fiyat, konum=None, rozet=rozet)
 
 
 def facebook_coz(metin):
     """Facebook kartı: 1. satır fiyat (ör. '20 CHF', 'Kostenlos'), sonra başlık, en sonda 'Şehir, ZH'."""
     satirlar = [s.strip() for s in metin.split("\n") if s.strip()]
+    rozet = next((FB_DURUM[s.lower()] for s in satirlar if s.lower() in FB_DURUM), None)
+    satirlar = [s for s in satirlar if s.lower() not in FB_DURUM and s not in ("·", "•")]
     fiyat = None
     fiyat_satiri = [s for s in satirlar if FIYAT_RE.search(s) or s.lower() in ("kostenlos", "gratis", "free")]
     if fiyat_satiri:
         fiyat = 0.0 if fiyat_satiri[0].lower() in ("kostenlos", "gratis", "free") else fiyat_bul(fiyat_satiri[0])
     konum = next((s for s in reversed(satirlar) if KONUM_RE.search(s)), None)
     baslik = next((s for s in satirlar if s not in fiyat_satiri and s != konum), None)
-    return dict(baslik=baslik, fiyat=fiyat, fiyat_hemen=None, fiyat_teklif=None, konum=konum)
+    return dict(baslik=baslik, fiyat=fiyat, fiyat_hemen=None, fiyat_teklif=None, konum=konum, rozet=rozet)
 
 
 def kart_coz(platform, metin):
@@ -82,7 +89,7 @@ def kart_coz(platform, metin):
         return facebook_coz(metin)
     satirlar = [s for s in metin.split("\n") if s.strip()]
     return dict(baslik=satirlar[0] if satirlar else None, fiyat=fiyat_bul(metin),
-                fiyat_hemen=None, fiyat_teklif=None, konum=None)
+                fiyat_hemen=None, fiyat_teklif=None, konum=None, rozet=None)
 
 
 def db_ac():
@@ -99,7 +106,8 @@ def db_ac():
     mevcut = [r[1] for r in con.execute("PRAGMA table_info(tarayici_ilan)")]
     for kolon, tip in [("sira", "INTEGER"),  # ekrandaki sıra (0 = en üst)
                        ("baslik", "TEXT"), ("konum", "TEXT"),
-                       ("fiyat_hemen", "REAL"), ("fiyat_teklif", "REAL")]:
+                       ("fiyat_hemen", "REAL"), ("fiyat_teklif", "REAL"),
+                       ("rozet", "TEXT")]:  # FB: rezerve/satildi, Ricardo: beliebt
         if kolon not in mevcut:
             con.execute(f"ALTER TABLE tarayici_ilan ADD COLUMN {kolon} {tip}")
     return con
@@ -124,11 +132,11 @@ def main():
             k = kart_coz(i["platform"], metin)
             con.execute("""INSERT OR REPLACE INTO tarayici_ilan
                 (dosya, platform, id, url, metin, fiyat, durum, teklif, sayfa_url, zaman, sira,
-                 baslik, konum, fiyat_hemen, fiyat_teklif)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                 baslik, konum, fiyat_hemen, fiyat_teklif, rozet)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                         (yol.name, i["platform"], i["id"], i["url"], metin, k["fiyat"],
                          durum, int(t.group(1)) if t else None, v["sayfa_url"], v["zaman"], sira,
-                         k["baslik"], k["konum"], k["fiyat_hemen"], k["fiyat_teklif"]))
+                         k["baslik"], k["konum"], k["fiyat_hemen"], k["fiyat_teklif"], k["rozet"]))
         con.execute("INSERT INTO tarayici_kayit VALUES (?,?,?,?,?,?)",
                     (yol.name, platform, v["sayfa_url"], v.get("sayfa_basligi"), v["zaman"],
                      len(v.get("ilanlar", []))))

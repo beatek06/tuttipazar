@@ -40,6 +40,8 @@ def veriyi_oku():
     t["kimlik"] = t["platform"] + ":" + t["id"]
     # Ücretli öne çıkarılanlar tarih sırası dışında durur
     t["reklam"] = t["metin"].fillna("").str.match(r"(Boost|Gesponsert|Sponsored)\b")
+    # Karşılaştırma sadece "en yeni" sıralı kayıtlarda geçerli
+    t["sirali"] = t["sayfa_url"].str.contains("creation_time_descend|sort=newest", regex=True)
     return t
 
 
@@ -51,7 +53,10 @@ def kayit_listeleri(g):
 
 def analiz(t):
     ozet, gozlemler, yeni_hiz = [], [], []
-    for (platform, anahtar), g in t.groupby(["platform", "anahtar"]):
+    for (platform, anahtar), g in t[~t["sirali"]].groupby(["platform", "anahtar"]):
+        ozet.append({"platform": platform, "sayfa": anahtar, "kayıt": g["dosya"].nunique(),
+                     "karşılaştırılabilen çift": "SIRASIZ ('Neueste' seçilmemiş) - analiz dışı"})
+    for (platform, anahtar), g in t[t["sirali"]].groupby(["platform", "anahtar"]):
         kayitlar = kayit_listeleri(g)
         p = pencere(kayitlar)
         ortusen = 0
@@ -76,6 +81,7 @@ def analiz(t):
             "gözlenen ilan": p["id"].nunique() if not p.empty else 0,
             "kaybolan ilan": int(p.loc[p["kayboldu"], "id"].nunique()) if not p.empty else 0,
             "günlük kaybolma %": gunluk_oran(p["kayboldu"].sum(), p["gun"].sum()) if not p.empty else None,
+            "rezerve/beliebt rozetli": int(g.drop_duplicates("kimlik")["rozet"].notna().sum()),
             "saatte yeni ilan": round(sum(y["yeni"] for y in yh) / sum(y["saat"] for y in yh), 1)
                                 if yh and sum(y["saat"] for y in yh) > 0 else None,
         })
@@ -90,11 +96,11 @@ def kaybolanlar_tablosu(t, goz):
     k = goz[goz["kayboldu"]].groupby("id").agg(son_gorulme=("t_a", "max"), yok=("t_b", "min")).reset_index()
     son = t.sort_values("zaman").groupby("kimlik").last()
     ilk = t.groupby("kimlik")["zaman"].min()
-    k = k.join(son[["platform", "baslik", "fiyat", "konum", "teklif", "url"]], on="id")
+    k = k.join(son[["platform", "baslik", "fiyat", "konum", "teklif", "rozet", "url"]], on="id")
     k["ilk görülme"] = k["id"].map(ilk)
     k["en fazla yayında (saat)"] = ((k["yok"] - k["ilk görülme"]).dt.total_seconds() / 3600).round(1)
     return k.rename(columns={"son_gorulme": "son görüldü", "yok": "yok olduğu kayıt"}).sort_values(
-        "yok olduğu kayıt", ascending=False)[["platform", "baslik", "fiyat", "konum", "teklif", "ilk görülme",
+        "yok olduğu kayıt", ascending=False)[["platform", "baslik", "fiyat", "konum", "teklif", "rozet", "ilk görülme",
                                               "son görüldü", "yok olduğu kayıt", "en fazla yayında (saat)", "url"]]
 
 
@@ -107,14 +113,15 @@ def urunler_tablosu(t, goz):
     if tum_ilan.empty:
         return pd.DataFrame()
     ilan_df = pd.DataFrame(tum_ilan.tolist(), columns=["ifade", "kimlik"]).drop_duplicates()
-    ilan_df = ilan_df.join(son[["platform", "fiyat"]], on="kimlik")
+    ilan_df = ilan_df.join(son[["platform", "fiyat", "rozet"]], on="kimlik")
     goz_id = goz.groupby("id").agg(kayboldu=("kayboldu", "max"), gun=("gun", "sum")) if not goz.empty else None
     for ifade, g in ilan_df.groupby("ifade"):
         if len(g) < MIN_ILAN:
             continue
         satir = {"ürün ifadesi": ifade, "ilan": len(g),
                  "Facebook ilan": int((g["platform"] == "facebook").sum()),
-                 "Ricardo ilan": int((g["platform"] == "ricardo").sum())}
+                 "Ricardo ilan": int((g["platform"] == "ricardo").sum()),
+                 "rezerve/beliebt": int(g["rozet"].notna().sum())}
         if goz_id is not None:
             gg = goz_id.reindex(g["kimlik"]).dropna()
             satir.update({
