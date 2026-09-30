@@ -3,21 +3,35 @@
 <head>
 <meta charset="utf-8">
 <style>
-  body { font: 14px system-ui, sans-serif; width: 260px; margin: 12px; color: #1a1a1a; background: #fff; }
+  body { font: 14px system-ui, sans-serif; width: 280px; margin: 12px; color: #1a1a1a; background: #fff; }
   h1 { font-size: 15px; margin: 0 0 8px; }
   #sayi { font-size: 28px; font-weight: 700; }
   button { width: 100%; padding: 9px; margin-top: 8px; font-size: 14px; border-radius: 6px;
            border: 1px solid #0b6b3a; background: #0b6b3a; color: #fff; cursor: pointer; }
   button.ikincil { background: #fff; color: #0b6b3a; }
+  button:disabled { background: #bbb; border-color: #bbb; cursor: not-allowed; }
+  .ac { display: flex; gap: 6px; }
+  .ac button { margin-top: 0; padding: 6px; font-size: 12px; }
+  #uyari { display: none; margin-top: 8px; padding: 8px; border-radius: 6px; font-size: 12px;
+           background: #fde8e8; color: #9b1c1c; border: 1px solid #f5b5b5; }
+  #uyari button { background: #9b1c1c; border-color: #9b1c1c; font-size: 12px; padding: 6px; }
+  #son { margin-top: 8px; font-size: 12px; color: #555; }
   #durum { margin-top: 8px; font-size: 12px; color: #555; min-height: 16px; }
 </style>
 </head>
 <body>
   <h1>Pazar Kaydedici</h1>
-  <div><span id="sayi">–</span> ilan toplandı</div>
-  <div style="font-size:12px;color:#555">Sayfayı aşağı kaydırdıkça sayı artar.</div>
+  <div class="ac">
+    <button id="acFb" class="ikincil">Facebook sayfası</button>
+    <button id="acRi" class="ikincil">Ricardo sayfası</button>
+  </div>
+  <div id="uyari"><b>Yanlış sayfa ayarı:</b> <span id="uyariMetin"></span>
+    <button id="duzelt">Doğru sayfayı aç</button></div>
+  <div style="margin-top:10px"><span id="sayi">–</span> ilan toplandı</div>
+  <div style="font-size:12px;color:#555">Sayfayı aşağı kaydırdıkça sayı artar (hedef ~200).</div>
   <button id="kaydet">Kaydet</button>
-  <button id="sifirla" class="ikincil">Sıfırla (yeni arama için)</button>
+  <button id="sifirla" class="ikincil">Sıfırla (yeni kayıt için)</button>
+  <div id="son"></div>
   <div id="durum"></div>
   <script src="popup.js"></script>
 </body>
